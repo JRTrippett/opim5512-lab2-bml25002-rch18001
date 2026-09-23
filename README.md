@@ -53,3 +53,21 @@
 | `wind_kt` | wind speed | knots |
 | `weekend` | 1 = Sat/Sun | 0/1 |
 | `load_mw` | New England demand (**what the model predicts**) | MW |
+
+## Model's Built-in Feature Importances
+`hour_of_day` is by far the dominant feature in the model's built-in ranking, with `dewpoint_f` and `temp_f` a distant second and third, and `weekend`, `humidity_pct`, and `wind_mph` contributing comparatively little.
+
+## SHAP Beeswarm (Global — required plot)
+`hour_of_day` is the dominant driver of predicted demand, with SHAP values increasing steadily as the hour value rises (red, high hours, on the positive side; blue, low hours, on the negative side), showing demand builds through the day rather than spiking narrowly. `dewpoint_f` and `temp_f` are secondary drivers, while `weekend`, `humidity_pct`, and `wind_kt` contribute comparatively little.
+
+## Boxplot of SHAP Values per Feature
+The boxplot shows `hour_of_day` has by far the widest spread of SHAP values, meaning its effect on individual predictions varies more than any other feature, while the remaining features cluster tightly near zero impact.
+
+## Violin Plot of SHAP Values
+This retells the beeswarm's story as a density shape, confirming the same `hour_of_day` dominance and wide swing, with the smaller features showing narrow, low-impact distributions.
+
+## Dependence Plot (temp_f)
+As `temp_f` increases, its SHAP value trends upward too, suggesting warmer temperatures generally push predicted demand higher, with the color coding likely reflecting an interaction with a second feature.
+
+## Absolute Sum of SHAP Values per Feature
+This ranks features by total absolute impact across all predictions, and it lines up with the earlier plots: `hour_of_day` first, `dewpoint_f` and `temp_f` next, with the rest trailing well behind.
